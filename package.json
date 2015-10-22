@@ -8,6 +8,7 @@
     "watch": "watchify -d browser.js -o www/bundle.js",
     "server": "nodemon server.js",
     "dev": "npm run watch & npm run server",
+    "build": "browserify browser.js -o www/bundle.js",
     "start": "node server.js"
   },
   "keywords": [],

@@ -25,7 +25,7 @@ function controller ($scope, auth, github, store) {
     auth.signin({}, function (profile, token) {
       store.set('profile', profile)
       store.set('token', token)
-
+      list()
     })
   }
 
@@ -46,7 +46,8 @@ function controller ($scope, auth, github, store) {
 
   $scope.select = function (repo) {
     $scope.repo = repo
-    github.readme($scope.accessToken, repo.full_name)
+    var profile = store.get('profile')
+    github.readme(profile.identities[0].access_token, repo.full_name)
       .then(function (result) {
         $scope.readme = result
         $scope.route = 'readme'
