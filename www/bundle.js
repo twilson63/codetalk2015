@@ -235,25 +235,27 @@ module.exports = function ($http, $q) {
     // })
   }
 
-  function local(repos) {
-    function upsert(repo) {
-      db.upsert(repo.full_name, function (doc) {
-        return _(doc).extend(repo)
-      })
-      .then(function (res) {
-        return readme(access_token, repo.full_name)
-          .then(function (readme) {
-            return rdb.upsert(repo.full_name, function (doc) {
-              return _(doc).extend(readme.object)
+  function local(access_token) {
+    return function (repos) {
+      function upsert(repo) {
+        db.upsert(repo.full_name, function (doc) {
+          return _(doc).extend(repo)
+        })
+        .then(function (res) {
+          return readme(access_token, repo.full_name)
+            .then(function (readme) {
+              return rdb.upsert(repo.full_name, function (doc) {
+                return _(doc).extend(readme.object)
+              })
             })
-          })
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+      }
+      _(repos).each(upsert)
+      return repos
     }
-    _(repos).each(upsert)
-    return repos
   }
 
   function repos(access_token) {
@@ -266,7 +268,7 @@ module.exports = function ($http, $q) {
     .then(function (event) {
       return event.object
     })
-    .then(local)
+    .then(local(access_token))
     .catch(function (err) {
       console.log('error getting docs')
       return db.allDocs({ include_docs: true})
