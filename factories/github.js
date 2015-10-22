@@ -3,22 +3,22 @@ var newEvent = require('palmettoflow-event').newEvent
 var PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-upsert'))
 
-var db = PouchDB('repos')
-var rdb = window.rdb = PouchDB('readmes2')
+var db = PouchDB('repos3')
+var rdb = window.rdb = PouchDB('readmes3')
 
 var _ = require('underscore')
 
 module.exports = function ($http, $q) {
   function readme (access_token, name) {
-    return $q.when(rdb.get(name))
-    // return $http.post('/api', newEvent('github/readmes', 'get', {
-    //   name: name
-    // }, {
-    //   token: access_token
-    // }))
-    // .then(function (result) {
-    //   return result.data.object
-    // })
+    //return $q.when(rdb.get(name))
+    return $http.post('/api', newEvent('github/readmes', 'get', {
+      name: name
+    }, {
+      token: access_token
+    }))
+    .then(function (result) {
+      return result.data.object
+    })
   }
 
   function local(access_token) {
@@ -54,7 +54,7 @@ module.exports = function ($http, $q) {
     .then(function (event) {
       return event.object
     })
-    .then(local(access_token))
+    //.then(local(access_token))
     .catch(function (err) {
       console.log('error getting docs')
       return db.allDocs({ include_docs: true})
