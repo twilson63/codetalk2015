@@ -109,6 +109,8 @@ PouchDB is an open-source JavaScript database
 
 --
 
+> factories/github
+
     var _ = require('underscore')
 
     function local(access_token) {
@@ -119,6 +121,8 @@ PouchDB is an open-source JavaScript database
     }
 
 --
+
+> factories/github
 
     function upsert(repo) {
       db.upsert(repo.full_name, function (doc) {
@@ -131,6 +135,8 @@ PouchDB is an open-source JavaScript database
 
 --
 
+> factories/github
+
     function readme (res) {
       return readme(access_token, repo.full_name)
         .then(function (readme) {
@@ -141,6 +147,8 @@ PouchDB is an open-source JavaScript database
     }
 
 --
+
+> factories/github
 
     function upsert(repo) {
       db.upsert(repo.full_name, function (doc) {
@@ -154,15 +162,28 @@ PouchDB is an open-source JavaScript database
 
 --
 
-  function readme (access_token, name) {
-    return $q.when(rdb.get(name))
-    //return $http.post('/api',
-    //  newEvent('github/readmes', 'get', {
-    //  name: name
-    //}, {
-      token: access_token
-    //}))
-    //.then(function (result) {
-    //  return result.data.object
-    //})
-  }
+> factories/github
+
+    function readme (access_token, name) {
+      return $http.post('/api',
+        newEvent('github/readmes', 'get', {
+        name: name
+      }, {
+        token: access_token
+      }))
+      .then(function (result) {
+        return result.data.object
+      })
+    }
+--
+
+> factories/github
+
+    function readme (access_token, name) {
+      return $q.when(rdb.get(name))
+    }
+
+--
+
+http://jsbin.com/kezixo/1/edit?js,console,output
+

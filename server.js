@@ -11,9 +11,15 @@ var server = http.createServer(function (req, res) {
   if (req.method === 'POST' && req.url === '/api') {
     //return sendError(req, res, { body: 'error'})
     return jsonBody(req, res, function (err, body) {
-      if (err) return sendError(req, res, { body: err.message })
+      if (err) {
+        console.log(err)
+        return sendError(req, res, { body: err.message })
+      }
       api(body, function (err, response) {
-        if (err) return sendError(req, res, { body: err.message })
+        if (err) {
+          console.log(err)
+          return sendError(req, res, { body: err.message })
+        }
         sendJSON(req, res, response)
       })
     })

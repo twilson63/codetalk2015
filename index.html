@@ -509,8 +509,12 @@ var rdb = window.rdb = PouchDB(&#39;ghstars-readmes&#39;)</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-16">
-    <section class="slide-content"><p>var _ = require(&#39;underscore&#39;)</p>
-<pre><code>function local(access_token) {
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>var _ = require(&#39;underscore&#39;)
+
+function local(access_token) {
   return function (repos) {
     _(repos).each(upsert)
     return repos
@@ -519,55 +523,79 @@ var rdb = window.rdb = PouchDB(&#39;ghstars-readmes&#39;)</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-17">
-    <section class="slide-content"><p>function upsert(repo) {
-      db.upsert(repo.full<em>name, function (doc) {
-        return </em>(doc).extend(repo)
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
-    }</p>
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>function upsert(repo) {
+  db.upsert(repo.full_name, function (doc) {
+    return _(doc).extend(repo)
+  })
+  .catch(function (err) {
+    console.log(err)
+  })
+}</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-18">
-    <section class="slide-content"><p>function readme (res) {
-      return readme(access<em>token, repo.full_name)
-        .then(function (readme) {
-          return rdb.upsert(repo.full_name, function (doc) {
-            return </em>(doc).extend(readme.object)
-          })
-        })
-    }</p>
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>function readme (res) {
+  return readme(access_token, repo.full_name)
+    .then(function (readme) {
+      return rdb.upsert(repo.full_name, function (doc) {
+        return _(doc).extend(readme.object)
+      })
+    })
+}</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-19">
-    <section class="slide-content"><p>function upsert(repo) {
-      db.upsert(repo.full<em>name, function (doc) {
-        return </em>(doc).extend(repo)
-      })
-      .then(readme)
-      .catch(function (err) {
-        console.log(err)
-      })
-    }</p>
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>function upsert(repo) {
+  db.upsert(repo.full_name, function (doc) {
+    return _(doc).extend(repo)
+  })
+  .then(readme)
+  .catch(function (err) {
+    console.log(err)
+  })
+}</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-20">
-    <section class="slide-content"><p>function readme (access_token, name) {
-    return $q.when(rdb.get(name))
-    //return $http.post(&#39;/api&#39;,
-    //  newEvent(&#39;github/readmes&#39;, &#39;get&#39;, {
-    //  name: name
-    //}, {
-      token: access_token
-    //}))
-    //.then(function (result) {
-    //  return result.data.object
-    //})
-  }</p>
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>function readme (access_token, name) {
+  return $http.post(&#39;/api&#39;,
+    newEvent(&#39;github/readmes&#39;, &#39;get&#39;, {
+    name: name
+  }, {
+    token: access_token
+  }))
+  .then(function (result) {
+    return result.data.object
+  })
+}</code></pre>
 </section>
   </div>
   <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><blockquote>
+<p>factories/github</p>
+</blockquote>
+<pre><code>function readme (access_token, name) {
+  return $q.when(rdb.get(name))
+}</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><p><a href="http://jsbin.com/kezixo/1/edit?js,console,output">http://jsbin.com/kezixo/1/edit?js,console,output</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
     <section class="slide-content"><div class="author">
   <h1 class="name">Tom Wilson</h1>
     <h3 class="twitter">
