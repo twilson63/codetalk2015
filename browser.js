@@ -8,7 +8,7 @@ document.body.appendChild(
   h('app')
 )
 
-window.Auth0Lock = require('auth0-lock')
+//window.Auth0Lock = require('auth0-lock')
 var angular = window.angular = require('angular')
 require('auth0-angular')
 

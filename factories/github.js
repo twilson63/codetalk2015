@@ -1,6 +1,6 @@
 var newEvent = require('palmettoflow-event').newEvent
 
-var PouchDB = require('pouchdb')
+//var PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-upsert'))
 
 var db = PouchDB('repos3')
