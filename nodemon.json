@@ -1,0 +1,4 @@
+{
+  "verbose": true,
+  "ignore": ["www/*","*.test.js", "fixtures/*"]
+}

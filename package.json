@@ -1,0 +1,38 @@
+{
+  "name": "codetalk2015",
+  "version": "1.0.0",
+  "description": "---",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify -d browser.js -o www/bundle.js",
+    "server": "nodemon server.js",
+    "dev": "npm run watch & npm run server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular-storage": "0.0.13",
+    "body": "^5.1.0",
+    "bootstrap": "^3.3.5",
+    "ecstatic": "^1.1.3",
+    "hyperscript": "^1.4.7",
+    "octonode": "^0.7.4",
+    "palmettoflow-event": "^1.1.2",
+    "palmettoflow-nodejs": "^1.0.1",
+    "pouchdb": "^5.0.0",
+    "pouchdb-upsert": "^1.1.3",
+    "send-data": "^8.0.0",
+    "underscore": "^1.8.3",
+    "zero-config": "^7.0.1"
+  },
+  "devDependencies": {
+    "brfs": "^1.4.1",
+    "browserify": "^11.2.0",
+    "ejsify": "^1.0.0",
+    "nodemon": "^1.7.3",
+    "packageify": "^0.2.3",
+    "watchify": "^3.4.0"
+  }
+}
