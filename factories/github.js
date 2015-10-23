@@ -23,31 +23,6 @@ module.exports = function ($http, $q) {
 
 
   function repos(access_token) {
-    function local(access_token) {
-      function readme (res) {
-        return readme(access_token, repo.full_name)
-          .then(function (readme) {
-            return rdb.upsert(repo.full_name, function (doc) {
-              return _(doc).extend(readme.object)
-            })
-          })
-      }
-      return function (repos) {
-        function upsert(repo) {
-          db.upsert(repo.full_name, function (doc) {
-            return _(doc).extend(repo)
-          })
-          .then(readme)
-          .catch(function (err) {
-            console.log(err)
-          })
-        }
-
-        _(repos).each(upsert)
-        return repos
-      }
-    }
-
     return $http.post('/api', newEvent('github/repos', 'list', {}, {
       token: access_token
     }))
@@ -59,12 +34,40 @@ module.exports = function ($http, $q) {
     })
     .then(local(access_token))
     .catch(function (err) {
-      console.log('error getting docs')
       return db.allDocs({ include_docs: true})
         .then(function (result) {
           return _(result.rows).pluck('doc')
         })
     })
+
+    function local(access_token) {
+      return function (repos) {
+        function upsert(repo) {
+          db.upsert(repo.full_name, function (doc) {
+            return _(doc).extend(repo)
+          })
+          .then(saveReadme(repo))
+          .catch(function (err) {
+            console.log(err)
+          })
+        }
+
+        _(repos).each(upsert)
+        return repos
+      }
+    }
+
+    function saveReadme (repo) {
+      return function (res) {
+        return readme(access_token, repo.full_name)
+          .then(function (readme) {
+            return rdb.upsert(repo.full_name, function (doc) {
+              return _(doc).extend(readme.object)
+            })
+          })
+      }
+    }
+
   }
 
   return {
